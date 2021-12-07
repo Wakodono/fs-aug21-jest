@@ -26,6 +26,8 @@ describe("Testing the app endpoints", () => {
         mongoose.connect(process.env.MONGO_URL_TEST).then(() => {
             console.log("Connected to the test database")
             done()
+        }).catch(e => {
+            console.log(e)
         })
     })
 
@@ -93,6 +95,8 @@ describe("Testing the app endpoints", () => {
             })
             .then(() => {
                 done()
+            }).catch(e=> {
+                console.log(e)
             })
     })
 
