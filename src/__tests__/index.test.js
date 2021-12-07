@@ -59,6 +59,32 @@ describe("Testing the app endpoints", () => {
         expect(response.body.length).toBeGreaterThan(0);
     })
 
+    // Write these tests and their implementation:
+    // When retrieving the /products/:id endpoint:
+    // expect requests to be 404 with a non-existing id
+    it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {
+        const response = await request.get("/products/:id")
+
+        expect(response.status).toBe(404)
+        expect(response.body._id).toBeUndefined()
+    })
+    // expect requests to return the correct product with a valid id
+    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
+    // When deleting the /products/:id endpoint:
+    // expect successful 204 response code
+    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
+    // expect 404 with a non-existing id
+    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
+    // When updating a /product/:id endpoint with new data:
+    // expect requests to be accepted.
+    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
+    // expect 404 with a non-existing id
+    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
+    // Expect the response.body.name to be changed
+    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
+    // Expect the typeof name in response.body to be “string”
+    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
+
 
     afterAll(done => {
         mongoose.connection.dropDatabase()
