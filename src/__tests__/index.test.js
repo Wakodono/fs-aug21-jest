@@ -47,6 +47,8 @@ describe("Testing the app endpoints", () => {
         price: 200,
     }
 
+    let _id = null
+
     it("should check that the POST /products endpoint creates a new product", async () => {
         const response = await request.post("/products").send(validProduct)
 
@@ -54,6 +56,8 @@ describe("Testing the app endpoints", () => {
         expect(response.body._id).toBeDefined();
         expect(response.body.name).toBeDefined();
         expect(response.body.price).toBeDefined();
+
+        _id = response.body._id
     })
 
     it("should check that the GET /products endpoint returns a list of products", async () => {
@@ -63,16 +67,30 @@ describe("Testing the app endpoints", () => {
         expect(response.body.length).toBeGreaterThan(0);
     })
 
-    // Write these tests and their implementation:
     // When retrieving the /products/:id endpoint:
-    // expect requests to be 404 with a non-existing id
-    it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {
-        const response = await request.get("/products/:id")
-
-        expect(response.status).toBe(404)
-        expect(response.body._id).toBeUndefined()
-    })
     // expect requests to return the correct product with a valid id
+    it("should check that the GET /products/:id returns a valid product with a valid id", async () => {
+        const response = await request.get(`/products/${_id}`);
+
+        expect(response.status).toBe(200);
+        expect(response.body._id).toBe(_id);
+        expect(response.body.name).toBe(validProduct.name);
+        expect(response.body.price).toBe(validProduct.price);
+    })
+    // expect requests to be 404 with a non-existing id
+    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id", async () => {
+    //     const response = await request.get(`/products/999999999999999999999999`)
+
+    //     expect(response.status).toBe(404)
+    // })
+    // it("should check that the GET /products/:id returns a valid product with a valid id", async () => {
+    //     const response = await request.get(`/products/${_id}`);
+
+    //     expect(response.status).toBe(200);
+    //     expect(response.body._id).toBe(_id);
+    //     expect(response.body.name).toBe(validProduct.name);
+    //     expect(response.body.price).toBe(validProduct.price);
+    // })
     // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
     // When deleting the /products/:id endpoint:
     // expect successful 204 response code
