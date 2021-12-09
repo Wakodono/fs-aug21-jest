@@ -78,34 +78,47 @@ describe("Testing the app endpoints", () => {
         expect(response.body.price).toBe(validProduct.price);
     })
     // expect requests to be 404 with a non-existing id
-    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id", async () => {
-    //     const response = await request.get(`/products/999999999999999999999999`)
+    it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id", async () => {
+        const response = await request.get(`/products/999999999999999999999999`)
 
-    //     expect(response.status).toBe(404)
-    // })
-    // it("should check that the GET /products/:id returns a valid product with a valid id", async () => {
-    //     const response = await request.get(`/products/${_id}`);
+        expect(response.status).toBe(404)
+    })
 
-    //     expect(response.status).toBe(200);
-    //     expect(response.body._id).toBe(_id);
-    //     expect(response.body.name).toBe(validProduct.name);
-    //     expect(response.body.price).toBe(validProduct.price);
-    // })
-    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
     // When deleting the /products/:id endpoint:
+
     // expect successful 204 response code
-    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
+    it("should check that the DELETE /products/:id returns 204", async () => {
+        const response = await request.delete(`/products/${_id}`);
+        expect(response.status).toBe(204);
+
+        const deleteProductResponse = await request.get(`/products/${_id}`);
+        expect(deleteProductResponse.status).toBe(404);
+    })
     // expect 404 with a non-existing id
-    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
+    it("should check that the DELETE /products/:id returns a 404 without a valid id", async () => {
+        const response = await request.delete(`/products/999999999999999999999999`);
+
+        expect(response.status).toBe(404);
+    })
+
     // When updating a /product/:id endpoint with new data:
+    const validUpdate = {
+        name: "Test Product Updated"
+    }
+
     // expect requests to be accepted.
-    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
+    it("should check that PUT requests on /products/:id get accepted", async () => {
+        const response = await request.put(`/products/${_id}`).send(validUpdate)
+
+        console.log("HERE IS THE RESPONSE STATUS",response.status)
+        expect(response.status).toBe(200);
+        expect(response.body.name).toBe(validUpdate.name);
+        expect(typeof response.body.name).toBe("string");
+    })
+
     // expect 404 with a non-existing id
-    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
     // Expect the response.body.name to be changed
-    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
     // Expect the typeof name in response.body to be “string”
-    // it("should check that the GET /products/:id endpoint creates a 404 with a non-existing id" , async () => {})
 
 
     afterAll(done => {
@@ -120,7 +133,5 @@ describe("Testing the app endpoints", () => {
             })
     })
 
-
-    // it("should test that the GET /products endpoint returns a list of products", async () => {})
 
 })
