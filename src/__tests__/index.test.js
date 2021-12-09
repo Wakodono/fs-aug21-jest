@@ -23,6 +23,8 @@ describe("Testing the app endpoints", () => {
     beforeAll(done => {
         console.log("This gets run before all tests in this suite")
 
+        console.log(process.env.MONGO_URL_TEST)
+
         mongoose.connect(process.env.MONGO_URL_TEST).then(() => {
             console.log("Connected to the test database")
             done()
