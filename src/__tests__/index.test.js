@@ -108,18 +108,25 @@ describe("Testing the app endpoints", () => {
 
     // expect requests to be accepted.
     it("should check that PUT requests on /products/:id get accepted", async () => {
-        const response = await request.put(`/products/${_id}`).send(validUpdate)
-
-        console.log("HERE IS THE RESPONSE STATUS",response.status)
-        expect(response.status).toBe(200);
-        expect(response.body.name).toBe(validUpdate.name);
-        expect(typeof response.body.name).toBe("string");
+        
+        try {
+            const response = await request.put(`/products/${_id}`).send(validUpdate)
+    
+            expect(response.status).toBe(200);
+            expect(response.body.name).toBe(validUpdate.name);
+            expect(typeof response.body.name).toBe("string");
+            
+        } catch (error) {
+            console.log(error)
+        }
     })
 
     // expect 404 with a non-existing id
-    // Expect the response.body.name to be changed
-    // Expect the typeof name in response.body to be “string”
+    it("should check that a PUT /products/:id request gets 404 w/ an invalid ID", async () => {
+        const response = await request.put(`/products/444444444444444444444444`).send(validUpdate)
 
+        expect(response.status).toBe(404);
+    })
 
     afterAll(done => {
         mongoose.connection.dropDatabase()
